@@ -1,5 +1,9 @@
 const ROUTES = {
-	BASE_URL: '/',
+	HOME: '/',
+	USER: '/user',
+	CREATE: '/create',
+	UPDATE: '/update',
+	DELETE: '/delete',
 };
 
 module.exports = ROUTES;

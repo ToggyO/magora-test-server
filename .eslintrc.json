@@ -22,7 +22,7 @@
     },
     "rules": {
         "arrow-parens": "off",
-
+        "indent": [2, "tab"],
         "linebreak-style": ["error", "unix"],
         "quotes": ["error", "single"],
         "semi": ["error", "always"],
