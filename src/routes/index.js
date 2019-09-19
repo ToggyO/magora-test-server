@@ -1,7 +1,7 @@
-const home = require('./home');
-const users = require('./users');
+const homeRoutes = require('./home');
+const userRoutes = require('./users');
 
 module.exports = {
-	home,
-	users,
+	homeRoutes,
+	userRoutes,
 };

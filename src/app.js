@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
 const app = express();
 const config = require('../config');
 const routes = require('./routes');
-const ROUTES = require('./constants');
+// const ROUTES = require('./constants');
+const swagger = require('./swagger/swagger');
 
 
 // DataBase
@@ -27,15 +28,16 @@ mongoose.connect(config.mongoURI, {
 
 
 // uses and sets
+// routes.homeRoutes();
+// routes.userRoutes();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
-
+swagger(app);
 // routes
-app.use(`${ROUTES.ROUTES.HOME}`, routes.home);
-app.use(`${ROUTES.ROUTES.USER}`, routes.users);
-
+routes.homeRoutes(app);
+routes.userRoutes(app);
 
 // server
 app.listen(config.port, () => console.log(`Server has been started on port: ${config.port}`));
