@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const config = require('../config');
 
-
 const getDB = () => {
 	const db = mongoose.connection;
 	db.on('error', error => console.log(error));
