@@ -45,6 +45,17 @@ const userRoutes = (app) => {
 	 *            type: string
 	 *          _v:
 	 *            type: number
+	 *      ApiResponses:
+	 *         type: 'object'
+	 *         properties:
+	 *           code:
+	 *             type: 'string'
+	 *           data:
+	 *             type: 'object'
+	 *           message:
+	 *             type: 'string'
+	 *           errors:
+	 *             type: 'array'
 	 */
 
 	/**
