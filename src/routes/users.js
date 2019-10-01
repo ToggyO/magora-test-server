@@ -1,33 +1,66 @@
 const express = require('express');
+const { checkSchema } = require('express-validator');
 
 const router = express.Router();
-const ROUTES = require('../constants');
+const { ROUTES } = require('../constants');
 const models = require('../models');
-const helpers = require('../helpers/helpers');
-
+const { validationResponse } = require('../helpers/helpers');
+const {
+	userValidate,
+	userCreateValidate,
+} = require('./validation');
+const userController = require('../controllers/users');
 
 const userRoutes = (app) => {
 	/**
 	 * @swagger
 	 *  components:
 	 *    schemas:
-	 *      User:
+	 *      UserCreate:
 	 *        type: object
 	 *        required:
 	 *          - firstName
 	 *          - lastName
 	 *          - age
+	 *          - email
+	 *          - password
 	 *        properties:
 	 *          firstName:
 	 *            type: string
-	 *            description: before 1 and 150 symbols
+	 *            description: between 1 and 150 symbols
 	 *          lastName:
 	 *            type: string
-	 *            description: before 1 and 150 symbols
+	 *            description: between 1 and 150 symbols
 	 *          age:
 	 *            type: number
 	 *            maximum: 150
-	 *            minimum: 18
+	 *            minimum: 1
+	 *          email:
+	 *            type: string
+	 *          password:
+	 *            type: string
+	 *            maximum: 20
+	 *            minimum: 6
+	 *      UserUpdate:
+	 *        type: object
+	 *        required:
+	 *          - firstName
+	 *          - lastName
+	 *          - age
+	 *          - email
+	 *        properties:
+	 *          firstName:
+	 *            type: string
+	 *            description: between 1 and 150 symbols
+	 *          lastName:
+	 *            type: string
+	 *            description: between 1 and 150 symbols
+	 *          age:
+	 *            type: number
+	 *            maximum: 150
+	 *            minimum: 1
+	 *          email:
+	 *            type: string
 	 *      UserResponse:
 	 *        type: object
 	 *        properties:
@@ -39,6 +72,10 @@ const userRoutes = (app) => {
 	 *            type: string
 	 *          age:
 	 *            type: number
+	 *          email:
+	 *            type: string
+	 *          password:
+	 *            type: string
 	 *          createdAt:
 	 *            type: string
 	 *          updatedAt:
@@ -81,17 +118,7 @@ const userRoutes = (app) => {
 	 *          '500':
 	 *              description: Server error
 	 */
-	router.get('/', async (req, res) => {
-		try {
-			const users = await models.User.find({});
-			res.status(200).json(users);
-		} catch (error) {
-			res.status(500).json({
-				error: 'Server Error',
-			});
-			throw new Error('Server Error');
-		}
-	});
+	router.get('/', userController.getUsers);
 
 	/**
 	 * @swagger
@@ -106,7 +133,7 @@ const userRoutes = (app) => {
 	 *          content:
 	 *            application/json:
 	 *              schema:
-	 *                $ref: '#/components/schemas/User'
+	 *                $ref: '#/components/schemas/UserCreate'
 	 *        responses:
 	 *          '201':
 	 *              description: Successful operation
@@ -115,34 +142,13 @@ const userRoutes = (app) => {
 	 *                  schema:
 	 *                    $ref: '#/components/schemas/UserResponse'
 	 *          '400':
-	 *              description: Invalid request body
+	 *              description: User with such email already exists
+	 *          '422':
+	 *              description: Invalid parameters
 	 *          '500':
 	 *              description: Server error
 	 */
-	router.post(`${ROUTES.ROUTES.CREATE}`, async (req, res) => {
-		const user = req.body;
-		try {
-			if (helpers.ValidationString(user.firstName)
-				&& helpers.ValidationString(user.lastName)
-				&& helpers.ValidationNumber(user.age)) {
-				const createdUser = await models.User.create({
-					firstName: user.firstName,
-					lastName: user.lastName,
-					age: user.age,
-				});
-				res.status(201).json(createdUser);
-			} else {
-				res.status(400).json({
-					error: 'Invalid request body',
-				});
-			}
-		} catch (error) {
-			res.status(500).json({
-				error: 'Server Error',
-			});
-			throw new Error('Server Error');
-		}
-	});
+	router.post(`${ROUTES.CREATE}`, checkSchema(userCreateValidate), validationResponse, userController.createUser);
 
 	/**
 	 * @swagger
@@ -164,7 +170,7 @@ const userRoutes = (app) => {
 	 *          content:
 	 *            application/json:
 	 *              schema:
-	 *                $ref: '#/components/schemas/User'
+	 *                $ref: '#/components/schemas/UserUpdate'
 	 *        responses:
 	 *          '201':
 	 *              description: Successful operation
@@ -177,31 +183,7 @@ const userRoutes = (app) => {
 	 *          '500':
 	 *              description: Server error
 	 */
-	router.put(`${ROUTES.ROUTES.UPDATE}/:userId`, async (req, res) => {
-		const user = req.body;
-		try {
-			if (helpers.ValidationString(user.firstName)
-				&& helpers.ValidationString(user.lastName)
-				&& helpers.ValidationNumber(user.age)) {
-				await models.User.findOneAndUpdate({ _id: req.params.userId }, {
-					firstName: user.firstName,
-					lastName: user.lastName,
-					age: user.age,
-				});
-				const updatedUser = await models.User.findById({ _id: req.params.userId });
-				res.status(201).json(updatedUser);
-			} else {
-				res.status(400).json({
-					error: 'Invalid parameters',
-				});
-			}
-		} catch (error) {
-			res.status(500).json({
-				error: 'Server Error',
-			});
-			throw new Error('Server Error');
-		}
-	});
+	router.put(`${ROUTES.UPDATE}/:userId`, checkSchema(userValidate), validationResponse, userController.updateUser);
 
 	/**
 	 * @swagger
@@ -226,27 +208,9 @@ const userRoutes = (app) => {
    *          '500':
 	 *              description: Server error
 	 */
-	router.delete(`${ROUTES.ROUTES.DELETE}/:userId`, async (req, res) => {
-		try {
-			const user = await models.User.findOneAndDelete({ _id: req.params.userId });
-			if (user) {
-				res.status(200).json({
-					ok: `User with Id: ${req.params.userId} successfully deleted`,
-				});
-			} else {
-				res.status(400).json({
-					error: 'Invalid user id',
-				});
-			}
-		} catch (error) {
-			res.status(500).json({
-				error: 'Server Error',
-			});
-			throw new Error('Server Error');
-		}
-	});
+	router.delete(`${ROUTES.DELETE}/:userId`, userController.deleteUser);
 
-	app.use(`${ROUTES.ROUTES.USER}`, router);
+	app.use(`${ROUTES.USER}`, router);
 };
 
 module.exports = userRoutes;

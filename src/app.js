@@ -8,6 +8,7 @@ const routes = require('./routes');
 // const ROUTES = require('./constants');
 const swagger = require('./swagger/swagger');
 const getDB = require('./connectDB');
+const { errorCatch } = require('./helpers/helpers');
 
 // DataBase
 getDB();
@@ -23,6 +24,8 @@ swagger(app);
 // routes
 routes.homeRoutes(app);
 routes.userRoutes(app);
+
+app.use(errorCatch);
 
 // server
 app.listen(config.port, () => console.log(`Server has been started on port: ${config.port}`));

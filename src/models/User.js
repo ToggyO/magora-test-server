@@ -19,8 +19,20 @@ const schema = new Schema(
 		},
 		age: {
 			type: Number,
-			min: 18,
+			min: 1,
 			max: 150,
+		},
+		email: {
+			type: String,
+			required: true,
+			minlength: 1,
+			maxlength: 100,
+		},
+		password: {
+			type: String,
+			required: true,
+			minlength: 1,
+			maxlength: 100,
 		},
 	},
 	{
