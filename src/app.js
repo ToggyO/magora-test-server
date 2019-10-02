@@ -24,7 +24,9 @@ swagger(app);
 // routes
 routes.homeRoutes(app);
 routes.userRoutes(app);
+routes.authRoutes(app);
 
+// error handling
 app.use(errorCatch);
 
 // server

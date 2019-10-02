@@ -21,6 +21,7 @@
         "sourceType": "module"
     },
     "rules": {
+        "no-return-assign": "off",
         "arrow-parens": "off",
         "indent": [2, "tab"],
         "linebreak-style": ["error", "unix"],

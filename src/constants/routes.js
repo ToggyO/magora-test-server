@@ -7,6 +7,7 @@ const ROUTES = {
 	UPDATE: '/update',
 	DELETE: '/delete',
 	API_PATH: 'C:/Projects/magora-test-server/src/routes/*.js',
+	AUTH: '/auth',
 };
 
 module.exports = ROUTES;

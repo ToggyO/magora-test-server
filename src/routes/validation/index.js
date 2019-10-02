@@ -48,8 +48,25 @@ const userCreateValidate = {
 	},
 };
 
+const authValidate = {
+	email: {
+		isEmail: true,
+		errorMessage: 'Email is invalid',
+	},
+	password: {
+		isLength: {
+			options: {
+				min: 6,
+				max: 20,
+			},
+			errorMessage: 'Password length must be greater then 6 and less then 20',
+		},
+	},
+};
+
 
 module.exports = {
 	userValidate,
 	userCreateValidate,
+	authValidate,
 };

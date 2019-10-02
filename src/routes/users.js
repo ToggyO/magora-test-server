@@ -2,14 +2,13 @@ const express = require('express');
 const { checkSchema } = require('express-validator');
 
 const router = express.Router();
+const userController = require('../controllers/users');
 const { ROUTES } = require('../constants');
-const models = require('../models');
-const { validationResponse } = require('../helpers/helpers');
+const { validationResponse, verifyToken } = require('../helpers/helpers');
 const {
 	userValidate,
 	userCreateValidate,
 } = require('./validation');
-const userController = require('../controllers/users');
 
 const userRoutes = (app) => {
 	/**
@@ -148,7 +147,7 @@ const userRoutes = (app) => {
 	 *          '500':
 	 *              description: Server error
 	 */
-	router.post(`${ROUTES.CREATE}`, checkSchema(userCreateValidate), validationResponse, userController.createUser);
+	router.post(`${ROUTES.CREATE}`, verifyToken, checkSchema(userCreateValidate), validationResponse, userController.createUser);
 
 	/**
 	 * @swagger
@@ -183,7 +182,7 @@ const userRoutes = (app) => {
 	 *          '500':
 	 *              description: Server error
 	 */
-	router.put(`${ROUTES.UPDATE}/:userId`, checkSchema(userValidate), validationResponse, userController.updateUser);
+	router.put(`${ROUTES.UPDATE}/:userId`, verifyToken, checkSchema(userValidate), validationResponse, userController.updateUser);
 
 	/**
 	 * @swagger
@@ -208,7 +207,7 @@ const userRoutes = (app) => {
    *          '500':
 	 *              description: Server error
 	 */
-	router.delete(`${ROUTES.DELETE}/:userId`, userController.deleteUser);
+	router.delete(`${ROUTES.DELETE}/:userId`, verifyToken, userController.deleteUser);
 
 	app.use(`${ROUTES.USER}`, router);
 };

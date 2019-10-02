@@ -25,7 +25,6 @@ const swaggerOptions = {
 		],
 	},
 	apis: [ROUTES.ROUTES.API_PATH],
-	// apis: ['../routes/home.js', '../routes/users.js'],
 };
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
