@@ -4,6 +4,7 @@ const moment = require('moment');
 
 
 const config = require('../../config');
+const models = require('../models');
 const { INFO } = require('../constants');
 
 
@@ -26,7 +27,7 @@ const generateToken = (payload) => ({
 
 const responseDataCreate = (...rest) => {
 	let obj = {};
-	rest.map(item => obj = { ...obj, ...item});
+	rest.map(item => obj = { ...obj, ...item });
 	return obj;
 };
 
@@ -47,21 +48,23 @@ const transformUserToResponse = (user) => {
 	};
 };
 
+
+const writeRefreshTokenToDB = async (userId, token) => {
+	await models.User.findOneAndUpdate({ _id: userId }, {
+		$set: {
+			refreshTokenList: { refreshToken: token },
+		},
+	});
+};
+
+
 module.exports = {
 	hashPassword,
 	comparePassword,
 	generateToken,
 	responseDataCreate,
 	transformUserToResponse,
+	writeRefreshTokenToDB,
 };
-
-
-// const ValidationString = (value) => !(!value && (value.length < 1 || value.length >= 150));
-//
-// const ValidationNumber = (value) => {
-// 	const raw = parseInt(value, 10);
-// 	return !!(value && (raw > 18 && raw <= 150));
-// };
-
 
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Il9pZCI6IjVkOTMwNmI1ZDY5NDMxMjhjY2U0NGNiZCIsImZpcnN0TmFtZSI6Im9sb2xvIiwibGFzdE5hbWUiOiJwZXctcGV3IiwiYWdlIjozMywiZW1haWwiOiJvbG9sby1wZXctcGV3MUBtYWlsLnJ1IiwicGFzc3dvcmQiOiIkMmIkMTAkUFlNODIuRXFXdEZ5M3h3eEdtOFVnTzVDbjJraUFUMDFUeFYuaEU4RjBvT3ppUm4zaHlIN0ciLCJjcmVhdGVkQXQiOiIyMDE5LTEwLTAxVDA3OjU2OjM3LjE5NFoiLCJ1cGRhdGVkQXQiOiIyMDE5LTEwLTAyVDA0OjU3OjQ5LjYyN1oiLCJfX3YiOjB9LCJpYXQiOjE1Njk5OTk5MDUsImV4cCI6MTU3MDAwMzUwNX0.c5taPlaFPwLPhi0sBojJd0kr5K4HaDSReS2kK7qLLFk

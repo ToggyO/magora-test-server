@@ -114,6 +114,8 @@ const authRoutes = (app) => {
 	 */
 	router.post('/', checkSchema(authValidate), validationResponse, authController.authenticate);
 
+	router.put('/token', authController.refreshToken);
+
 	app.use(`${ROUTES.AUTH}`, router);
 };
 
