@@ -8,7 +8,7 @@ const routes = require('./routes');
 // const ROUTES = require('./constants');
 const swagger = require('./swagger/swagger');
 const getDB = require('./connectDB');
-const { errorCatch } = require('./helpers/helpers');
+const { errorCatch } = require('./middlewares/users');
 
 // DataBase
 getDB();

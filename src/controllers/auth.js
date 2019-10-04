@@ -21,8 +21,8 @@ module.exports = {
 			if (user) {
 				const comparedPassword = await comparePassword(authData.password, user.password);
 				if (comparedPassword) {
-					const token = generateToken(user);
 					const userInfo = transformUserToResponse(user);
+					const token = generateToken(userInfo);
 					return successResponse({
 						res,
 						status: RESPONSE_STATUSES.CODE_200,
@@ -46,5 +46,8 @@ module.exports = {
 		} catch (error) {
 			return next(error);
 		}
+	},
+	refreshToken: async (req, res, next) => {
+
 	},
 };

@@ -8,5 +8,6 @@ module.exports = {
 	host: process.env.HOST,
 	port: process.env.PORT || 3001,
 	mongoURI: process.env.MONGO_URL,
-	secretKey: process.env.SECRET_KEY,
+	accessSecretKey: process.env.ACCESS_SECRET_KEY,
+	refreshSecretKey: process.env.REFRESH_SECRET_KEY,
 };

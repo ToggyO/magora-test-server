@@ -4,7 +4,7 @@ const { checkSchema } = require('express-validator');
 const router = express.Router();
 const userController = require('../controllers/users');
 const { ROUTES } = require('../constants');
-const { validationResponse, verifyToken } = require('../helpers/helpers');
+const { validationResponse, verifyToken } = require('../middlewares/users');
 const {
 	userValidate,
 	userCreateValidate,
@@ -81,17 +81,6 @@ const userRoutes = (app) => {
 	 *            type: string
 	 *          _v:
 	 *            type: number
-	 *      ApiResponses:
-	 *         type: 'object'
-	 *         properties:
-	 *           code:
-	 *             type: 'string'
-	 *           data:
-	 *             type: 'object'
-	 *           message:
-	 *             type: 'string'
-	 *           errors:
-	 *             type: 'array'
 	 */
 
 	/**
@@ -113,9 +102,17 @@ const userRoutes = (app) => {
 	 *          - application/json
 	 *        responses:
 	 *          '200':
-	 *            description: Successful operation
+	 *              description: Successful operation
+	 *              content:
+	 *                application/json:
+	 *                  schema:
+	 *                    $ref: '#/components/schemas/SuccessResponse'
 	 *          '500':
 	 *              description: Server error
+	 *              content:
+	 *                application/json:
+	 *                  schema:
+	 *                    $ref: '#/components/schemas/ErrorResponse'
 	 */
 	router.get('/', userController.getUsers);
 
@@ -139,15 +136,27 @@ const userRoutes = (app) => {
 	 *              content:
 	 *                application/json:
 	 *                  schema:
-	 *                    $ref: '#/components/schemas/UserResponse'
+	 *                    $ref: '#/components/schemas/SuccessResponse'
 	 *          '400':
 	 *              description: User with such email already exists
+	 *              content:
+	 *                application/json:
+	 *                  schema:
+	 *                    $ref: '#/components/schemas/ErrorResponse'
 	 *          '422':
 	 *              description: Invalid parameters
+	 *              content:
+	 *                application/json:
+	 *                  schema:
+	 *                    $ref: '#/components/schemas/ErrorResponse'
 	 *          '500':
 	 *              description: Server error
+	 *              content:
+	 *                application/json:
+	 *                  schema:
+	 *                    $ref: '#/components/schemas/ErrorResponse'
 	 */
-	router.post(`${ROUTES.CREATE}`, verifyToken, checkSchema(userCreateValidate), validationResponse, userController.createUser);
+	router.post(`${ROUTES.CREATE}`, checkSchema(userCreateValidate), validationResponse, userController.createUser);
 
 	/**
 	 * @swagger
@@ -157,6 +166,11 @@ const userRoutes = (app) => {
 	 *        tags: [Users]
 	 *        summary: Get the list of users
 	 *        description: ''
+	 *        security:
+	 *          - bearerAuth:
+	 *              type: http
+	 *              scheme: bearer
+	 *              bearerFormat: JWT
 	 *        parameters:
 	 *          - in: path
    *            name: userId
@@ -179,8 +193,16 @@ const userRoutes = (app) => {
 	 *                    $ref: '#/components/schemas/UserResponse'
 	 *          '400':
 	 *              description: Invalid parameters
+	 *              content:
+	 *                application/json:
+	 *                  schema:
+	 *                    $ref: '#/components/schemas/ErrorResponse'
 	 *          '500':
 	 *              description: Server error
+	 *              content:
+	 *                application/json:
+	 *                  schema:
+	 *                    $ref: '#/components/schemas/ErrorResponse'
 	 */
 	router.put(`${ROUTES.UPDATE}/:userId`, verifyToken, checkSchema(userValidate), validationResponse, userController.updateUser);
 
@@ -192,6 +214,11 @@ const userRoutes = (app) => {
 	 *        tags: [Users]
 	 *        summary: Get the list of users
 	 *        description: ''
+	 *        security:
+	 *          - bearerAuth:
+	 *              type: http
+	 *              scheme: bearer
+	 *              bearerFormat: JWT
 	 *        parameters:
 	 *          - in: path
 	 *            name: userId
@@ -202,10 +229,22 @@ const userRoutes = (app) => {
 	 *        responses:
 	 *          '200':
 	 *              description: Successful operation
+	 *              content:
+	 *                application/json:
+	 *                  schema:
+	 *                    $ref: '#/components/schemas/SuccessResponse'
 	 *          '400':
 	 *              description: Invalid user id
+	 *              content:
+	 *                application/json:
+	 *                  schema:
+	 *                    $ref: '#/components/schemas/ErrorResponse'
    *          '500':
 	 *              description: Server error
+	 *              content:
+	 *                application/json:
+	 *                  schema:
+	 *                    $ref: '#/components/schemas/ErrorResponse'
 	 */
 	router.delete(`${ROUTES.DELETE}/:userId`, verifyToken, userController.deleteUser);
 

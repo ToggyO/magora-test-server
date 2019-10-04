@@ -34,6 +34,12 @@ const schema = new Schema(
 			minlength: 1,
 			maxlength: 100,
 		},
+		refreshTokenList: [
+			{
+				refreshToken: String,
+				deviceId: String,
+			},
+		],
 	},
 	{
 		timestamps: true,

@@ -1,41 +1,10 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
-const { validationResult } = require('express-validator');
-const {
-	RESPONSE_STATUSES,
-	RESPONSE_CODES,
-	ERROR_MESSAGES,
-} = require('../constants');
+
 
 const config = require('../../config');
-const { errorResponse } = require('../routes/resSchemes/resSchemes');
 const { INFO } = require('../constants');
-
-
-const validationResponse = (req, res, next) => {
-	const errors = validationResult(req);
-	if (!errors.isEmpty()) {
-		return errorResponse({
-			res,
-			status: RESPONSE_STATUSES.CODE_422,
-			code: RESPONSE_CODES.VALIDATION_ERROR,
-			message: ERROR_MESSAGES.INVALID_DATA,
-			data: errors.array(),
-		});
-	}
-	return next();
-};
-
-
-const errorCatch = (err, req, res, next) => {
-	res.status(RESPONSE_STATUSES.CODE_500).json({
-		code: RESPONSE_CODES.INTERNAL_SERVER_ERROR,
-		message: ERROR_MESSAGES.SERVER_ERROR,
-		error: {},
-	});
-	throw new Error(ERROR_MESSAGES.SERVER_ERROR);
-};
 
 
 const hashPassword = async (password) => {
@@ -44,36 +13,15 @@ const hashPassword = async (password) => {
 };
 
 
-const comparePassword = async (password, hashedPassword) => bcrypt
+const comparePassword = (password, hashedPassword) => bcrypt
 	.compare(password, hashedPassword);
 
 
 const generateToken = (payload) => ({
-	accessToken: jwt.sign({ payload }, config.secretKey, { expiresIn: '1h' }),
+	accessToken: jwt.sign({ data: payload }, config.accessSecretKey, { expiresIn: '1h' }),
+	refreshToken: jwt.sign({ userId: payload.userInfo.id }, config.refreshSecretKey, { expiresIn: '1w' }),
 	expireTime: moment().add(1, 'hours').toISOString(),
 });
-
-
-const verifyToken = async (req, res, next) => {
-	try {
-		let token = req.headers.authorization || req.headers.Authorization;
-		if (token.startsWith('Bearer ')) {
-			token = token.slice(7, token.length);
-		}
-		const validateToken = await jwt.verify(token, config.secretKey);
-		if (validateToken) {
-			return next();
-		}
-	} catch (error) {
-		return errorResponse({
-			res,
-			status: RESPONSE_STATUSES.CODE_401,
-			code: RESPONSE_CODES.UNAUTHORIZED,
-			message: ERROR_MESSAGES.UNAUTHORIZED,
-			data: error,
-		});
-	}
-};
 
 
 const responseDataCreate = (...rest) => {
@@ -100,12 +48,9 @@ const transformUserToResponse = (user) => {
 };
 
 module.exports = {
-	validationResponse,
-	errorCatch,
 	hashPassword,
 	comparePassword,
 	generateToken,
-	verifyToken,
 	responseDataCreate,
 	transformUserToResponse,
 };

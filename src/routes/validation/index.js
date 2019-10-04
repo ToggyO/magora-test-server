@@ -7,9 +7,9 @@ const userValidate = {
 			},
 			errorMessage: 'First name length must be greater then 1 and less then 150',
 		},
-		// trim: {
-		// options: ' -',
-		// },
+		rtrim: {
+			options: ' ',
+		},
 	},
 	lastName: {
 		isLength: {
@@ -18,6 +18,9 @@ const userValidate = {
 				max: 150,
 			},
 			errorMessage: 'Last name length must be greater then 1 and less then 150',
+		},
+		rtrim: {
+			options: ' ',
 		},
 	},
 	age: {
@@ -28,10 +31,16 @@ const userValidate = {
 			},
 			errorMessage: 'Age must be greater then 1 and less then 150',
 		},
+		rtrim: {
+			options: ' ',
+		},
 	},
 	email: {
 		isEmail: true,
 		errorMessage: 'Email is invalid',
+		rtrim: {
+			options: ' ',
+		},
 	},
 };
 
@@ -45,6 +54,12 @@ const userCreateValidate = {
 			},
 			errorMessage: 'Password length must be greater then 6 and less then 20',
 		},
+		rtrim: {
+			options: ' ',
+		},
+		// rtrim: {
+		// 	options: [[' ', ' -']],
+		// },
 	},
 };
 
@@ -52,6 +67,9 @@ const authValidate = {
 	email: {
 		isEmail: true,
 		errorMessage: 'Email is invalid',
+		rtrim: {
+			options: ' ',
+		},
 	},
 	password: {
 		isLength: {
@@ -60,6 +78,9 @@ const authValidate = {
 				max: 20,
 			},
 			errorMessage: 'Password length must be greater then 6 and less then 20',
+		},
+		rtrim: {
+			options: ' ',
 		},
 	},
 };
