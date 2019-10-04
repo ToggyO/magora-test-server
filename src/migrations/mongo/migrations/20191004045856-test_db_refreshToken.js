@@ -4,8 +4,7 @@ module.exports = {
     try {
       await db.collection('users').updateMany({}, {
         $set: {
-          email: '',
-          password: '',
+          refreshTokenList: [],
         },
       });
     } catch (err) {
@@ -17,13 +16,11 @@ module.exports = {
     try {
       await db.collection('users').updateMany({}, {
         $unset: {
-          email: '',
-          password: '',
+          refreshTokenList: [],
         },
       });
     } catch (err) {
       throw new Error('Server error');
     }
-    // return db.collection('users').updateMany({}, { $unset: { blacklisted: false } });
   },
 };
