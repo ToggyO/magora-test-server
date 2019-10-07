@@ -14,6 +14,7 @@ const getDB = () => {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 		useFindAndModify: false,
+		useCreateIndex: true,
 	})
 		.catch(error => console.log(`Connection completed with error: ${error}`));
 };

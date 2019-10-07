@@ -78,7 +78,7 @@ const authRoutes = (app) => {
 	 *  /auth:
 	 *      post:
 	 *        tags: [Token]
-	 *        summary: Get the list of users
+	 *        summary: Create token
 	 *        description: ''
 	 *        requestBody:
 	 *          required: true
@@ -114,6 +114,52 @@ const authRoutes = (app) => {
 	 */
 	router.post('/', checkSchema(authValidate), validationResponse, authController.authenticate);
 
+	/**
+	 * @swagger
+	 * path:
+	 *  /auth/token:
+	 *      put:
+	 *        tags: [Token]
+	 *        summary: Update token
+	 *        description: ''
+	 *        requestBody:
+	 *          required: true
+	 *          content:
+	 *            application/json:
+	 *              schema:
+	 *                type: object
+	 *                properties:
+	 *                  refreshToken:
+	 *                    type: string
+	 *                required:
+	 *                  - refreshToken
+	 *        responses:
+	 *          '200':
+	 *              description: Successful operation
+	 *              content:
+	 *                application/json:
+	 *                  schema:
+	 *                    type: object
+	 *                    properties:
+	 *                      accessToken:
+	 *                        type: string
+	 *                      refreshToken:
+	 *                        type: string
+	 *                      expireTime:
+	 *                        type: string
+	 *          '401':
+	 *              description: Unauthorized
+	 *              content:
+	 *                application/json:
+	 *                  schema:
+	 *                    $ref: '#/components/schemas/ErrorResponse'
+	 *          '500':
+	 *              description: Server error
+	 *              content:
+	 *                application/json:
+	 *                  schema:
+	 *                    $ref: '#/components/schemas/ErrorResponse'
+	 */
 	router.put('/token', authController.refreshToken);
 
 	app.use(`${ROUTES.AUTH}`, router);

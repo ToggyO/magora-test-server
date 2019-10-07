@@ -37,7 +37,10 @@ const schema = new Schema(
 		refreshTokenList: [
 			{
 				refreshToken: String,
-				deviceId: String,
+				deviceId: {
+					type: String,
+					unique: true,
+				},
 			},
 		],
 	},
