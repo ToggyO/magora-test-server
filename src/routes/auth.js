@@ -75,7 +75,7 @@ const authRoutes = (app) => {
 	/**
 	 * @swagger
 	 * path:
-	 *  /auth:
+	 *  /auth/token:
 	 *      post:
 	 *        tags: [Token]
 	 *        summary: Create token
@@ -112,7 +112,7 @@ const authRoutes = (app) => {
 	 *                  schema:
 	 *                    $ref: '#/components/schemas/ErrorResponse'
 	 */
-	router.post('/', checkSchema(authValidate), validationResponse, authController.authenticate);
+	router.post('/token', checkSchema(authValidate), validationResponse, authController.authenticate);
 
 	/**
 	 * @swagger

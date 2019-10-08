@@ -122,7 +122,7 @@ const userRoutes = (app) => {
 	 *  /user/create:
 	 *      post:
 	 *        tags: [Users]
-	 *        summary: Get the list of users
+	 *        summary: Create user
 	 *        description: ''
 	 *        requestBody:
 	 *          required: true
@@ -164,7 +164,7 @@ const userRoutes = (app) => {
 	 *  /user/update/{userId}:
 	 *      put:
 	 *        tags: [Users]
-	 *        summary: Get the list of users
+	 *        summary: Update user's info  by id
 	 *        description: ''
 	 *        security:
 	 *          - bearerAuth:
@@ -212,7 +212,7 @@ const userRoutes = (app) => {
 	 *  /user/delete/{userId}:
 	 *      delete:
 	 *        tags: [Users]
-	 *        summary: Get the list of users
+	 *        summary: Delete user by id
 	 *        description: ''
 	 *        security:
 	 *          - bearerAuth:
