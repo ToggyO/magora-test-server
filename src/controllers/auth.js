@@ -19,7 +19,6 @@ module.exports = {
 			const { body, headers } = req;
 			const authData = body;
 			const deviceId = headers['user-agent'].replace(/\D+/g, '');
-			console.log(deviceId);
 			const user = await models.User.findOne({ email: authData.email });
 			if (user) {
 				const comparedPassword = await comparePassword(authData.password, user.password);

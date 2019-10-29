@@ -11,6 +11,7 @@ const {
 module.exports = {
 	getUsers: async (req, res, next) => {
 		try {
+			console.log(req.session);
 			const users = await models.User.find({});
 			return successResponse({
 				res,
