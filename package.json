@@ -5,7 +5,7 @@
   "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "migrate-mongo up && nodemon app.js",
+    "dev": "cross-env NODE_ENV=development migrate-mongo up && nodemon app.js",
     "migrate": "migrate-mongo -f migrate-mongo-config.js",
     "migrate:down": "migrate-mongo down",
     "migrate:up": "migrate-mongo up"
