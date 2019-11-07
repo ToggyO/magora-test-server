@@ -14,7 +14,7 @@ const swaggerOptions = {
 			description: 'Test API for showing users',
 		},
 		// host: `${config.host}:${config.port}`,
-		basePath: '/',
+		// basePath: '/',
 		// basePath: `${ROUTES.ROUTES.SWAGGER}`,
 		consumes: 'application/json',
 		produces: 'application/json',

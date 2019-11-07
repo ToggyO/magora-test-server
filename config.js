@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 
 const root = path.join.bind(this, __dirname);
-dotenv.config({ path: root('.env') });
+dotenv.config({ path: root(`.env.${process.env.NODE_ENV}`) });
 
 module.exports = {
 	host: process.env.HOST,

@@ -6,7 +6,7 @@ const ROUTES = {
 	CREATE: '/create',
 	UPDATE: '/update',
 	DELETE: '/delete',
-	API_PATH: 'C:/Projects/magora-test-server/src/routes/*.js',
+	API_PATH: './src/routes/*.js',
 	AUTH: '/auth',
 };
 
