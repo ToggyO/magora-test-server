@@ -30,4 +30,8 @@ routes.authRoutes(app);
 app.use(errorCatch);
 
 // server
-app.listen(config.port, () => console.log(`Server has been started on port: ${config.port}`));
+app.listen(config.port, () => console.log(
+  `Server has been started on: 
+      host: ${config.host}
+      port: ${config.port}`,
+));
