@@ -10,7 +10,8 @@ const getDB = () => {
 		console.log(`Connected to database server ${info.host}:${info.port}/${info.name}`);
 		// require('./mocks')();
 	});
-	mongoose.connect(config.mongoURI, {
+
+	mongoose.connect(`${config.mongoURI}/${config.dbName}`, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 		useFindAndModify: false,

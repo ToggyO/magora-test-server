@@ -23,7 +23,11 @@
     "rules": {
         "no-return-assign": "off",
         "arrow-parens": "off",
-        "indent": [2, "tab"],
+        "indent": [
+            2,
+            "tab",
+            { "SwitchCase": 1 }
+        ],
         "linebreak-style": ["error", "unix"],
         "quotes": ["error", "single"],
         "semi": ["error", "always"],

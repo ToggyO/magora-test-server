@@ -40,6 +40,7 @@ const schema = new Schema(
 				deviceId: {
 					type: String,
 					unique: true,
+					sparse: true,
 				},
 			},
 		],

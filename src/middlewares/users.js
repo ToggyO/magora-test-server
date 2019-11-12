@@ -1,5 +1,7 @@
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
+const models = require('../models');
+
 
 const config = require('../../config');
 const { errorResponse } = require('../routes/resSchemes/resSchemes');
@@ -41,9 +43,12 @@ const verifyToken = async (req, res, next) => {
 		if (token.startsWith('Bearer ')) {
 			token = token.slice(7, token.length);
 		}
+		console.log(new Date().getTime());
 		const validateToken = await jwt.verify(token, config.accessSecretKey);
+		console.log(validateToken);
 		if (validateToken) {
-			return next();
+			const user = await models.User.findOne({ _id: validateToken.data.userInfo.id });
+			if (user) return next();
 		}
 	} catch (error) {
 		return errorResponse({

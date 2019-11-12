@@ -7,6 +7,7 @@ dotenv.config({ path: root(`.env.${process.env.NODE_ENV}`) });
 module.exports = {
 	host: process.env.HOST,
 	port: process.env.PORT || 3001,
+	dbName: process.env.DB_NAME,
 	mongoURI: process.env.MONGO_URL,
 	accessSecretKey: process.env.ACCESS_SECRET_KEY,
 	refreshSecretKey: process.env.REFRESH_SECRET_KEY,

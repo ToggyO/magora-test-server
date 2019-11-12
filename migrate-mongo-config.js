@@ -5,10 +5,10 @@ const config = require('./config');
 const migrationConfig = {
   mongodb: {
     // TODO Change (or review) the url to your MongoDB:
-    url: config.mongoURI,
+    url: `${config.mongoURI}/${config.dbName}`,
 
     // TODO Change this to your database name:
-    databaseName: 'test_db',
+    databaseName: config.dbName,
 
     options: {
       useNewUrlParser: true, // removes a deprecation warning when connecting

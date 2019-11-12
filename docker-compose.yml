@@ -1,0 +1,23 @@
+version: '3'
+services:
+  db:
+    container_name: mongo-db
+    image: mongo:latest
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - db-data:/data/db
+  node:
+    container_name: magora-test-server
+    restart: always
+    build: .
+    ports:
+      - '5000:5000'
+    links:
+      - db
+    depends_on:
+      - db
+
+volumes:
+  db-data:

@@ -18,7 +18,7 @@ const comparePassword = (password, hashedPassword) => bcrypt
 	.compare(password, hashedPassword);
 
 
-const generateToken = (payload) => ({
+const generateToken = payload => ({
 	accessToken: jwt.sign({ data: payload }, config.accessSecretKey, { expiresIn: '1h' }),
 	refreshToken: jwt.sign({ userId: payload.userInfo.id }, config.refreshSecretKey, { expiresIn: '1w' }),
 	expireTime: moment().add(1, 'hours').toISOString(),
