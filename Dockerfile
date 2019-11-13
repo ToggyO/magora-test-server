@@ -6,4 +6,4 @@ RUN npm install -g node-gyp
 RUN npm install
 COPY ./ ./
 EXPOSE 5000
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "run", "prod" ]
