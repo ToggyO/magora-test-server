@@ -18,6 +18,8 @@ const getDB = () => {
 		useCreateIndex: true,
 	})
 		.catch(error => console.log(`Connection completed with error: ${error}`));
+	console.log(process.env.NODE_ENV);
+	console.log(`${config.mongoURI}/${config.dbName}`);
 };
 
 module.exports = getDB;

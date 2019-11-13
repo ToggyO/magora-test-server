@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cross-env NODE_ENV=development concurrently \"nodemon src/app.js\" \"migrate-mongo up\"",
-    "prod": "cross-env NODE_ENV=production concurrently \"nodemon src/app.js\" \"migrate-mongo up\"",
+    "prod": "cross-env NODE_ENV=production nodemon src/app.js && cross-env NODE_ENV=production migrate-mongo up",
     "migrate": "migrate-mongo -f migrate-mongo-config.js",
     "migrate:down": "cross-env NODE_ENV=development  migrate-mongo down",
     "migrate:up": "cross-env NODE_ENV=development migrate-mongo up"
@@ -24,7 +24,7 @@
     "jsonwebtoken": "^8.5.1",
     "migrate-mongo": "^6.0.2",
     "moment": "^2.24.0",
-    "mongoose": "^5.7.1",
+    "mongoose": "^5.7.7",
     "swagger-jsdoc": "^3.4.0",
     "swagger-ui-express": "^4.1.2"
   },
