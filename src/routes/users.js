@@ -171,13 +171,6 @@ const userRoutes = (app) => {
 	 *              type: http
 	 *              scheme: bearer
 	 *              bearerFormat: JWT
-	 *        parameters:
-	 *          - in: path
-   *            name: userId
-	 *            description: User ID
-	 *            scheme:
-   *              type: string
-	 *            required: true
 	 *        requestBody:
 	 *          required: true
 	 *          content:
@@ -219,13 +212,6 @@ const userRoutes = (app) => {
 	 *              type: http
 	 *              scheme: bearer
 	 *              bearerFormat: JWT
-	 *        parameters:
-	 *          - in: path
-	 *            name: userId
-	 *            description: User ID
-	 *            scheme:
-	 *              type: string
-	 *            required: true
 	 *        responses:
 	 *          '200':
 	 *              description: Successful operation

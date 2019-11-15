@@ -59,7 +59,6 @@ const writeRefreshTokenToDB = async (userId, token, deviceId) => {
 	user.refreshTokenList = filteredTokenList;
 	user.markModified('refreshTokenList');
 	await user.save();
-	console.log(1111111111111111);
 };
 
 
