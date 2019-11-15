@@ -55,21 +55,29 @@ module.exports = {
 	},
 	updateUser: async (req, res, next) => {
 		try {
-			const { body, params } = req;
-			const { userId } = params;
-			await models.User.findOneAndUpdate({ _id: userId }, {
-				firstName: body.firstName,
-				lastName: body.lastName,
-				age: body.age,
-				email: body.email,
-			});
-			const updatedUser = await models.User.findById({ _id: userId });
-			const userInfo = transformUserToResponse(updatedUser);
-			return successResponse({
+			const { body, userData } = req;
+			const { userInfo } = userData;
+			const user = await models.User.findById({ _id: userInfo.id });
+			if (user) {
+				await models.User.findOneAndUpdate({ _id: userInfo.id }, {
+					firstName: body.firstName,
+					lastName: body.lastName,
+					age: body.age,
+					email: body.email,
+				});
+				const updatedUser = await models.User.findById({ _id: userInfo.id });
+				return successResponse({
+					res,
+					status: RESPONSE_STATUSES.CODE_201,
+					code: RESPONSE_CODES.SUCCESS,
+					data: transformUserToResponse(updatedUser),
+				});
+			}
+			return errorResponse({
 				res,
-				status: RESPONSE_STATUSES.CODE_201,
-				code: RESPONSE_CODES.SUCCESS,
-				data: userInfo,
+				status: RESPONSE_STATUSES.CODE_422,
+				code: RESPONSE_CODES.UNPROCESSABLE_ENTITY,
+				message: ERROR_MESSAGES.USER_EXISTS,
 			});
 		} catch (error) {
 			return next(error);
@@ -77,14 +85,16 @@ module.exports = {
 	},
 	deleteUser: async (req, res, next) => {
 		try {
-			const { userId } = req.params;
-			const user = await models.User.findOneAndDelete({ _id: userId });
+			const { userData } = req;
+			const { userInfo } = userData;
+			const user = await models.User.findById({ _id: userInfo.id });
 			if (user) {
+				await models.User.findOneAndDelete({ _id: userInfo.id });
 				return successResponse({
 					res,
 					status: RESPONSE_STATUSES.CODE_200,
 					code: RESPONSE_CODES.SUCCESS,
-					data: `User with Id: ${userId} successfully deleted`,
+					data: `User with Id: ${userInfo.id} successfully deleted`,
 				});
 			}
 			return errorResponse({

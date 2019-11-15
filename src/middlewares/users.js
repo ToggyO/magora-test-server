@@ -1,9 +1,11 @@
 const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
+
+const { transformUserToResponse } = require('../helpers/helpers');
 const models = require('../models');
-
-
 const config = require('../../config');
+
+
 const { errorResponse } = require('../routes/resSchemes/resSchemes');
 const {
 	RESPONSE_STATUSES,
@@ -28,8 +30,8 @@ const validationResponse = (req, res, next) => {
 
 
 const errorCatch = (err, req, res, next) => {
-  console.log(err);
-  res.status(RESPONSE_STATUSES.CODE_500).json({
+	console.log(err);
+	res.status(RESPONSE_STATUSES.CODE_500).json({
 		code: RESPONSE_CODES.INTERNAL_SERVER_ERROR,
 		message: ERROR_MESSAGES.SERVER_ERROR,
 		error: {},
@@ -44,12 +46,11 @@ const verifyToken = async (req, res, next) => {
 		if (token.startsWith('Bearer ')) {
 			token = token.slice(7, token.length);
 		}
-		console.log(new Date().getTime());
 		const validateToken = await jwt.verify(token, config.accessSecretKey);
-		console.log(validateToken);
 		if (validateToken) {
 			const user = await models.User.findOne({ _id: validateToken.data.userInfo.id });
-			if (user) return next();
+			req.userData = transformUserToResponse(user);
+			return next();
 		}
 	} catch (error) {
 		return errorResponse({
