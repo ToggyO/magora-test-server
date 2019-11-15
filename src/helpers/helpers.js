@@ -50,7 +50,7 @@ const transformUserToResponse = (user) => {
 
 
 const writeRefreshTokenToDB = async (userId, token, deviceId) => {
-	const user = await models.User.findOne({ _id: userId });
+	const user = await models.User.findById(userId);
 	const filteredTokenList = user.refreshTokenList.filter(item => item.deviceId !== deviceId);
 	filteredTokenList.push({
 		refreshToken: token,
@@ -59,6 +59,7 @@ const writeRefreshTokenToDB = async (userId, token, deviceId) => {
 	user.refreshTokenList = filteredTokenList;
 	user.markModified('refreshTokenList');
 	await user.save();
+	console.log(1111111111111111);
 };
 
 

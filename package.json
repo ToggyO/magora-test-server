@@ -5,8 +5,8 @@
   "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "cross-env NODE_ENV=development concurrently \"nodemon src/app.js\" \"migrate-mongo up\"",
-    "prod": "cross-env NODE_ENV=development concurrently \"nodemon src/app.js\" \"migrate-mongo up\"",
+    "dev": "cross-env NODE_ENV=development concurrently \"nodemon src/app.js\"",
+    "prod": "cross-env NODE_ENV=production concurrently \"nodemon src/app.js\"",
     "migrate": "migrate-mongo -f migrate-mongo-config.js",
     "migrate:down": "cross-env NODE_ENV=development  migrate-mongo down",
     "migrate:up": "cross-env NODE_ENV=development migrate-mongo up"

@@ -28,7 +28,8 @@ const validationResponse = (req, res, next) => {
 
 
 const errorCatch = (err, req, res, next) => {
-	res.status(RESPONSE_STATUSES.CODE_500).json({
+  console.log(err);
+  res.status(RESPONSE_STATUSES.CODE_500).json({
 		code: RESPONSE_CODES.INTERNAL_SERVER_ERROR,
 		message: ERROR_MESSAGES.SERVER_ERROR,
 		error: {},

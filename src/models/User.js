@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const models = require('./index');
 
 /* eslint-disable prefer-destructuring */
 const Schema = mongoose.Schema;
@@ -34,14 +35,17 @@ const schema = new Schema(
 			minlength: 1,
 			maxlength: 100,
 		},
+		// refreshTokenList: [
+		// 	{
+		// 		type: Schema.Types.ObjectId,
+		// 		ref: 'RefreshToken',
+		// 	},
+		// ],
 		refreshTokenList: [
 			{
 				refreshToken: String,
-				deviceId: {
-					type: String,
-					unique: true,
-					sparse: true,
-				},
+
+				deviceId: String,
 			},
 		],
 	},
