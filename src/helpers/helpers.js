@@ -61,19 +61,6 @@ const writeRefreshTokenToDB = async (userId, token, deviceId) => {
 	await user.save();
 };
 
-// const writeRefreshTokenToDB = async (userId, token, deviceId) => {
-// 	const user = await models.User.findById(userId);
-// 	const filteredTokenList = user.refreshTokenList.filter(item => item.deviceId !== deviceId);
-// 	filteredTokenList.push({
-// 		refreshToken: token,
-// 		deviceId,
-// 	});
-// 	user.refreshTokenList = filteredTokenList;
-// 	user.markModified('refreshTokenList');
-// 	await user.save();
-// };
-
-
 module.exports = {
 	hashPassword,
 	comparePassword,
@@ -85,16 +72,3 @@ module.exports = {
 
 // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7Il9pZCI6IjVkOTMwNmI1ZDY5NDMxMjhjY2U0NGNiZCIsImZpcnN0TmFtZSI6Im9sb2xvIiwibGFzdE5hbWUiOiJwZXctcGV3IiwiYWdlIjozMywiZW1haWwiOiJvbG9sby1wZXctcGV3MUBtYWlsLnJ1IiwicGFzc3dvcmQiOiIkMmIkMTAkUFlNODIuRXFXdEZ5M3h3eEdtOFVnTzVDbjJraUFUMDFUeFYuaEU4RjBvT3ppUm4zaHlIN0ciLCJjcmVhdGVkQXQiOiIyMDE5LTEwLTAxVDA3OjU2OjM3LjE5NFoiLCJ1cGRhdGVkQXQiOiIyMDE5LTEwLTAyVDA0OjU3OjQ5LjYyN1oiLCJfX3YiOjB9LCJpYXQiOjE1Njk5OTk5MDUsImV4cCI6MTU3MDAwMzUwNX0.c5taPlaFPwLPhi0sBojJd0kr5K4HaDSReS2kK7qLLFk
 
-// const writeRefreshTokenToDB = async (userId, token, deviceId) => {
-// 	await models.User.findOneAndUpdate({ _id: userId }, {
-// 		$set: {
-// 			refreshTokenList: {
-// 				refreshToken: token,
-// 				deviceId,
-// 			},
-// 		},
-// 	},
-// 	{
-// 		upsert: true,
-// 	});
-// };

@@ -3,6 +3,7 @@ const ROUTES = {
 	SWAGGER: '/swagger/v1/',
 	HOME: '/',
 	USER: '/user',
+	ALL: 'all',
 	CREATE: '/create',
 	UPDATE: '/update',
 	DELETE: '/delete',

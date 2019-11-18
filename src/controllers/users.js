@@ -10,8 +10,13 @@ const {
 
 module.exports = {
 	getUsers: async (req, res, next) => {
+		const page = Number(req.query.page) || 1;
+		const pageSize = Number(req.query.pageSize);
 		try {
-			const users = await models.User.find({});
+			const users = await models.User
+				.find({})
+				.skip((pageSize * page) - pageSize)
+				.limit(pageSize);
 			return successResponse({
 				res,
 				status: RESPONSE_STATUSES.CODE_200,

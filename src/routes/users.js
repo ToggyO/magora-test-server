@@ -93,13 +93,24 @@ const userRoutes = (app) => {
 	/**
 	 * @swagger
 	 * path:
-	 *  /user:
+	 *  /user/all:
 	 *     get:
 	 *        tags: [Users]
 	 *        summary: Get the list of users
 	 *        description: ''
 	 *        produces:
 	 *          - application/json
+	 *        parameters:
+	 *          - in: query
+	 *            name: pageSize
+	 *            schema:
+	 *              type: integer
+	 *            description: Size of the page
+	 *          - in: query
+	 *            name: page
+	 *            schema:
+	 *              type: integer
+	 *            description: Number of the page
 	 *        responses:
 	 *          '200':
 	 *              description: Successful operation
@@ -114,7 +125,7 @@ const userRoutes = (app) => {
 	 *                  schema:
 	 *                    $ref: '#/components/schemas/ErrorResponse'
 	 */
-	router.get('/', userController.getUsers);
+	router.get(`/${ROUTES.ALL}`, userController.getUsers);
 
 	/**
 	 * @swagger
